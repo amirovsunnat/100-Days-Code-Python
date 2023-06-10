@@ -33,6 +33,8 @@ while game_is_on:
     if player.is_finished():
         scoreboard.increase_score()
         player.start()
+        player_car.increase_speed()
+
 
 screen.exitonclick()
 
