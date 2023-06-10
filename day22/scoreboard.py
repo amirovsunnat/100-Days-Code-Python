@@ -9,13 +9,13 @@ class Scoreboard(Turtle):
         self.color("green")
         self.penup()
         self.hideturtle()
-        self.goto(-80, 250)
-        self.write(f"Score: {self.score}", move=False, align="Left", font=FONT)
+        self.goto(0, 250)
+        self.write(f"Score: {self.score}", move=False, align="center", font=FONT)
 
     def increase_score(self):
         self.clear()
         self.score += 1
-        self.write(f"Score: {self.score}", move=False, align="Left", font=FONT)
+        self.write(f"Score: {self.score}", move=False, align="center", font=FONT)
 
     def game_over(self):
         self.goto(-100, 0)
