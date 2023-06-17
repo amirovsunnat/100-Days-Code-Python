@@ -37,11 +37,8 @@ while not_finished:
             right_answer += 1
             founded_states.append(state)
 
-
-need_to_learn_states = []
-for s in states_names:
-    if s not in founded_states:
-        need_to_learn_states.append(s)
+# comprehension style is used to check learning states
+need_to_learn_states = [s for s in states_names if s not in founded_states]
 
 states = pandas.DataFrame(need_to_learn_states)
 states.to_csv("need_to_learn_states.csv")
