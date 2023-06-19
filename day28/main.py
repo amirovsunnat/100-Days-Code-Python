@@ -3,33 +3,50 @@ import tkinter as tk
 
 
 # set up constants
-RED = "#E21818"
-BLUE = "#00235B"
+RED = "#CD1818"
+PINK = "#DB005B"
 YELLOW = "#FFF7D4"
 LIGHT_BLUE = "#98DFD6"
 FONT_STYLE = "Courier"
-WORKING_MINUTES = 30
+WORKING_MINUTES = 1
 BREAK_MINUTES = 5
 LONG_BREAK_MINUTES = 20
+reps = 0  # variable for changing timestamp
 
 
 # define a function for keeping track of time
 def time_count_down(count):
     """Takes a number and updates time_track"""
+    minutes = math.floor(count / 60)
+    seconds = count % 60
+    if seconds < 10:
+        seconds = f"0{seconds}"
+    canvas.itemconfig(time_track, text=f"{minutes}:{seconds}")
     if count > 0:
-        minutes = math.floor(count / 60)
-        seconds = count % 60
-        if seconds == 0:
-            seconds = "00"
-        canvas.itemconfig(time_track, text=f"{minutes}:{seconds}")
         tkinter_.after(1000, time_count_down, count-1)
+    elif count == 0:
+        start_timer()
 
 
 # define a start timer function 00
 def start_timer():
     """Starts the time_count_down function"""
     # call time_count_down function
-    time_count_down(300)
+    global reps
+    reps += 1
+    working_seconds = WORKING_MINUTES * 60
+    break_seconds = BREAK_MINUTES * 60
+    long_break_seconds = LONG_BREAK_MINUTES * 60
+
+    if reps % 2 == 0:
+        time_count_down(break_seconds)
+        timer_label.config(text="BREAK", fg=PINK)
+    elif reps % 8 == 0:
+        time_count_down(long_break_seconds)
+        timer_label.config(text="BREAK", fg=RED)
+    else:
+        time_count_down(working_seconds)
+        timer_label.config(text="WORK")
 
 
 # define a function for resetting a time
