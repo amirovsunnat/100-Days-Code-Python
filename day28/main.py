@@ -8,10 +8,11 @@ PINK = "#DB005B"
 YELLOW = "#FFF7D4"
 LIGHT_BLUE = "#98DFD6"
 FONT_STYLE = "Courier"
-WORKING_MINUTES = 1
+WORKING_MINUTES = 30
 BREAK_MINUTES = 5
 LONG_BREAK_MINUTES = 20
 reps = 0  # variable for changing timestamp
+timer = None
 
 
 # define a function for keeping track of time
@@ -23,9 +24,14 @@ def time_count_down(count):
         seconds = f"0{seconds}"
     canvas.itemconfig(time_track, text=f"{minutes}:{seconds}")
     if count > 0:
-        tkinter_.after(1000, time_count_down, count-1)
+        global timer
+        timer = tkinter_.after(1000, time_count_down, count-1)
     elif count == 0:
         start_timer()
+        check_labels = ""  # keeping track of checks
+        for i in range(int(reps/2)):
+            check_labels += "✔"
+        check_label.config(text=check_labels)
 
 
 # define a start timer function 00
@@ -51,7 +57,13 @@ def start_timer():
 
 # define a function for resetting a time
 def reset_time():
-    time_count_down(0)
+    tkinter_.after_cancel(timer)
+    canvas.itemconfig(time_track, text=f"00:00")
+    timer_label.config(text="TIMER", fg=LIGHT_BLUE)
+    check_label.config(text="")
+    # reset reps in order to behave properly
+    global reps
+    reps = 0
 
 
 # set up a window
@@ -72,7 +84,7 @@ timer_label = tk.Label(text="Timer", fg=LIGHT_BLUE, font=(FONT_STYLE, 50, "bold"
 timer_label.grid(column=1, row=0)
 
 # check label
-check_label = tk.Label(text="✔", fg=LIGHT_BLUE, font=(FONT_STYLE, 20, "bold"), bg=YELLOW)
+check_label = tk.Label(text="", fg=LIGHT_BLUE, font=(FONT_STYLE, 20, "bold"), bg=YELLOW)
 check_label.grid(column=1, row=3)
 check_label.config(pady=20)
 
